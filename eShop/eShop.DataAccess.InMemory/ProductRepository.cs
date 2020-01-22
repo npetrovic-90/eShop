@@ -8,7 +8,7 @@ using eShop.Core.Models;
 
 namespace eShop.DataAccess.InMemory
 {
-	class ProductRepository
+	public class ProductRepository
 	{
 		ObjectCache cache = MemoryCache.Default;
 
@@ -27,7 +27,7 @@ namespace eShop.DataAccess.InMemory
 
 		public void Commit()
 		{
-			cache["product"] = products;
+			cache["products"] = products;
 		}
 
 		public void Insert(Product product)
