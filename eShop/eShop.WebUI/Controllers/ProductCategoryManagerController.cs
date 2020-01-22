@@ -1,4 +1,5 @@
-﻿using eShop.Core.Models;
+﻿using eShop.Core.Contracts;
+using eShop.Core.Models;
 using eShop.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace eShop.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        InMemoryRepository<ProductCategory> context;
+        IRepository<ProductCategory> context;
 
-        public ProductCategoryManagerController()
+        public ProductCategoryManagerController(IRepository<ProductCategory> productCategory)
         {
-            context = new InMemoryRepository<ProductCategory>();
+            context = productCategory;
 
         }
         // GET: ProductManager

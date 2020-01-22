@@ -1,4 +1,5 @@
-﻿using eShop.Core.Models;
+﻿using eShop.Core.Contracts;
+using eShop.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace eShop.DataAccess.InMemory
 {
-	public class InMemoryRepository<T> where T : BaseEntity
+	public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
 	{
-		ObjectCache cache =  MemoryCache.Default;
+		ObjectCache cache = MemoryCache.Default;
 		List<T> items;
 		string className;
 
 		public InMemoryRepository()
 		{
 			className = typeof(T).Name;
-			items=cache[className] as List<T>;
+			items = cache[className] as List<T>;
 
 			if (items == null)
 			{
 				items = new List<T>();
 			}
-			
-		}
 
+		}
+		
 		public void Commit()
 		{
-			cache[className] = items; 
+			cache[className] = items;
 		}
 
 		public void Insert(T t)
@@ -40,7 +41,7 @@ namespace eShop.DataAccess.InMemory
 		{
 			T tToUpdate = items.Find(i => i.Id == t.Id);
 
-			if(tToUpdate != null)
+			if (tToUpdate != null)
 			{
 				tToUpdate = t;
 			}
@@ -54,7 +55,7 @@ namespace eShop.DataAccess.InMemory
 		{
 			T tToFind = items.Find(i => i.Id == Id);
 
-			if(tToFind != null)
+			if (tToFind != null)
 			{
 				return tToFind;
 
