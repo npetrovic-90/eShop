@@ -74,8 +74,12 @@ namespace eShop.Services
 		public void AddToBasket(HttpContextBase httpContext, string productId)
 		{
 			Basket basket = GetBasket(httpContext, true);
-
+			
 			BasketItem item = basket.BasketItems.FirstOrDefault(i => i.ProductId == productId);
+
+
+
+
 
 
 			if (item == null)
@@ -84,11 +88,9 @@ namespace eShop.Services
 				{
 					BasketId = basket.Id,
 					ProductId = productId,
-					Quantity = 1,
+					Quantity = 1
 				};
-
 				basket.BasketItems.Add(item);
-
 			}
 			else
 			{
@@ -161,6 +163,14 @@ namespace eShop.Services
 			{
 				return model;
 			}
+		}
+
+		public void ClearBasket(HttpContextBase httpContext)
+		{
+			Basket basket = GetBasket(httpContext,false);
+			basket.BasketItems.Clear();
+			basketContext.Commit();
+
 		}
 
 	}
