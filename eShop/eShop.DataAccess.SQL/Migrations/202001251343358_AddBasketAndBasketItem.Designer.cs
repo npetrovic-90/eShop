@@ -7,13 +7,13 @@ namespace eShop.DataAccess.SQL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class AddBasket : IMigrationMetadata
+    public sealed partial class AddBasketAndBasketItem : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddBasket));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddBasketAndBasketItem));
         
         string IMigrationMetadata.Id
         {
-            get { return "202001241058098_AddBasket"; }
+            get { return "202001251343358_AddBasketAndBasketItem"; }
         }
         
         string IMigrationMetadata.Source

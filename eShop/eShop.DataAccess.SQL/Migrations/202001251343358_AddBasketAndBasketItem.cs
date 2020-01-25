@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddBasket : DbMigration
+    public partial class AddBasketAndBasketItem : DbMigration
     {
         public override void Up()
         {

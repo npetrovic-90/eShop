@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using eShop.WebUI.Models;
+using eShop.Core.Models;
+using eShop.Core.Contracts;
 
 namespace eShop.WebUI.Controllers
 {
@@ -17,15 +19,14 @@ namespace eShop.WebUI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IRepository<Customer> customerRepository;
 
-        public AccountController()
-        {
-        }
+       
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(IRepository<Customer> customerRepository)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+           
+            this.customerRepository = customerRepository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -151,10 +152,30 @@ namespace eShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { 
+                    UserName = model.Email, 
+                    Email = model.Email 
+                
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //register the customer account
+                    Customer customer = new Customer()
+                    {
+                        UserId=user.Id,
+                        City = model.City,
+                        Email=model.Email,
+                        LastName = model.LastName,
+                        FirstName = model.FirstName,
+                        Street = model.Street,
+                        ZipCode = model.ZipCode,
+                        State=model.State
+                    };
+
+                    customerRepository.Insert(customer);
+                    customerRepository.Commit();
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

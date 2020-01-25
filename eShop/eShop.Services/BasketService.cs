@@ -77,6 +77,7 @@ namespace eShop.Services
 
 			BasketItem item = basket.BasketItems.FirstOrDefault(i => i.ProductId == productId);
 
+
 			if (item == null)
 			{
 				item = new BasketItem()
