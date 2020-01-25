@@ -6,49 +6,33 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using eShop.WebUI;
 using eShop.WebUI.Controllers;
+using eShop.Core.Contracts;
+using eShop.Core.Models;
+using eShop.WebUI.Tests.Mocks;
+using eShop.Core.ViewModels;
 
 namespace eShop.WebUI.Tests.Controllers
 {
 	[TestClass]
 	public class HomeControllerTest
 	{
-		//[TestMethod]
-		//public void Index()
-		//{
-		//	//// Arrange
-		//	//HomeController controller = new HomeController();
+		[TestMethod]
+		public void IndexPageDoesReturnProducts()
+		{
+			IRepository<Product> productContext = new Mocks.MockContext<Product>();
+			IRepository<ProductCategory> productCategoryContext = new MockContext<ProductCategory>();
 
-		//	//// Act
-		//	//ViewResult result = controller.Index() as ViewResult;
+			productContext.Insert(new Product());
 
-		//	//// Assert
-		//	//Assert.IsNotNull(result);
-		//}
+			HomeController controller = new HomeController(productContext,productCategoryContext);
 
-		//[TestMethod]
-		//public void About()
-		//{
-		//	// Arrange
-		//	HomeController controller = new HomeController();
 
-		//	// Act
-		//	ViewResult result = controller.About() as ViewResult;
+			var result = controller.Index() as ViewResult;
+			var viewModel = (ProductListViewModel)result.ViewData.Model;
 
-		//	// Assert
-		//	Assert.AreEqual("Your application description page.", result.ViewBag.Message);
-		//}
+			Assert.AreEqual(1, viewModel.Products.Count());
+		}
 
-		//[TestMethod]
-		//public void Contact()
-		//{
-		//	// Arrange
-		//	HomeController controller = new HomeController();
-
-		//	// Act
-		//	ViewResult result = controller.Contact() as ViewResult;
-
-		//	// Assert
-		//	Assert.IsNotNull(result);
-		//}
+		
 	}
 }
