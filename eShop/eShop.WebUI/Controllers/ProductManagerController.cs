@@ -11,6 +11,7 @@ using eShop.DataAccess.InMemory;
 
 namespace eShop.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductManagerController : Controller
     {
         IRepository<Product>  context;
